@@ -12,9 +12,8 @@ import (
 type (
 	Symbol  string
 	Keyword string
-	Value   interface {
-	}
-	List []Value
+	Value   interface{}
+	List    = []Value
 )
 
 const (
