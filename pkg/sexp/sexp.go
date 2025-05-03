@@ -13,7 +13,7 @@ type (
 	Symbol  string
 	Keyword string
 	Value   interface{}
-	List    = []Value
+	List    []Value
 )
 
 const (
