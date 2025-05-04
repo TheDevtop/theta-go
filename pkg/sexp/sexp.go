@@ -6,29 +6,24 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/TheDevtop/theta-go/pkg/types"
 	"github.com/zyedidia/generic/stack"
 )
 
-type (
-	Symbol  string
-	Keyword string
-	Value   interface{}
-	List    = []Value
-)
-
 const (
-	keyTrue  Keyword = ":true"
-	keyFalse Keyword = ":false"
+	keyTrue  types.Keyword = ":true"
+	keyFalse types.Keyword = ":false"
+	keyFn    types.Keyword = ":fn"
 )
 
-func isKeyword(str string) (Keyword, bool) {
+func isKeyword(str string) (types.Keyword, bool) {
 	if strings.HasPrefix(str, ":") && len(str) > 1 {
-		return Keyword(str), true
+		return types.Keyword(str), true
 	}
-	return Keyword(str), false
+	return types.Keyword(str), false
 }
 
-func boolToKeyword(bit bool) Keyword {
+func boolToKeyword(bit bool) types.Keyword {
 	if bit {
 		return keyTrue
 	} else {
@@ -41,7 +36,7 @@ func lex(str string) []string {
 	return rex.FindAllString(str, -1)
 }
 
-func parse(token string) Value {
+func parse(token string) types.Value {
 	if strings.HasPrefix(token, "\"") && strings.HasSuffix(token, "\"") {
 		return token
 	}
@@ -60,15 +55,15 @@ func parse(token string) Value {
 		}
 		return k
 	}
-	return Symbol(token)
+	return types.Symbol(token)
 }
 
 // Encode s-expression, returns string
-func Marshal(val Value) string {
+func Marshal(val types.Value) string {
 	ret := ""
 	switch val.(type) {
 	case nil:
-		ret = string(KeyNil)
+		ret = string(types.KeyNil)
 	case bool:
 		_, v := val.(bool)
 		ret = string(boolToKeyword(v))
@@ -78,11 +73,13 @@ func Marshal(val Value) string {
 		ret = fmt.Sprintf("%d", val)
 	case float32:
 		ret = fmt.Sprintf("%f", val)
-	case Symbol, Keyword:
+	case types.Symbol, types.Keyword:
 		ret = fmt.Sprintf("%s", val)
-	case List:
+	case types.Lambda:
+		ret = string(keyFn)
+	case types.List:
 		bucket := make([]string, 0, 8)
-		for _, v := range val.(List) {
+		for _, v := range val.(types.List) {
 			bucket = append(bucket, Marshal(v))
 		}
 		ret = fmt.Sprintf("(%s)", strings.Join(bucket, " "))
@@ -91,18 +88,18 @@ func Marshal(val Value) string {
 }
 
 // Decode s-expression from string
-func Unmarshal(str string) Value {
+func Unmarshal(str string) types.Value {
 	var (
 		tokens = lex(str)
-		ret    = make(List, 0)
-		sptr   = stack.New[List]()
+		ret    = make(types.List, 0)
+		sptr   = stack.New[types.List]()
 	)
 
 	for _, tok := range tokens {
 		switch tok {
 		case "(":
 			sptr.Push(ret)
-			ret = make(List, 0)
+			ret = make(types.List, 0)
 		case ")":
 			ret = append(sptr.Pop(), ret)
 		default:
@@ -110,7 +107,7 @@ func Unmarshal(str string) Value {
 		}
 	}
 	if len(ret) == 0 {
-		return Value(nil)
+		return types.Value(nil)
 	}
 	return ret[0]
 }

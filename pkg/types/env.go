@@ -1,20 +1,13 @@
-package mce
+package types
 
-import "github.com/TheDevtop/theta-go/pkg/sexp"
-
-type Environment struct {
-	parent *Environment
-	table  map[sexp.Symbol]sexp.Value
-}
-
-func New() *Environment {
+func NewEnvironment() *Environment {
 	ptr := new(Environment)
 	ptr.parent = nil
-	ptr.table = make(map[sexp.Symbol]sexp.Value, 8)
+	ptr.table = make(map[Symbol]Value, 8)
 	return ptr
 }
 
-func (env *Environment) Lookup(sym sexp.Symbol) sexp.Value {
+func (env *Environment) Lookup(sym Symbol) Value {
 	if val, ok := env.table[sym]; ok {
 		return val
 	}
@@ -24,7 +17,7 @@ func (env *Environment) Lookup(sym sexp.Symbol) sexp.Value {
 	return env.parent.Lookup(sym)
 }
 
-func (env *Environment) Modify(sym sexp.Symbol, exp sexp.Value) {
+func (env *Environment) Modify(sym Symbol, exp Value) {
 	if exp == nil {
 		delete(env.table, sym)
 	}

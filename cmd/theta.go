@@ -6,12 +6,13 @@ import (
 
 	"github.com/TheDevtop/theta-go/pkg/mce"
 	"github.com/TheDevtop/theta-go/pkg/sexp"
+	"github.com/TheDevtop/theta-go/pkg/types"
 )
 
 func main() {
 	if len(os.Args) != 2 {
 		panic("Theta needs an argument to evaluate")
 	}
-	exp := mce.Eval(sexp.Unmarshal(os.Args[1]), mce.New())
+	exp := mce.Eval(sexp.Unmarshal(os.Args[1]), types.NewEnvironment())
 	fmt.Println(sexp.Marshal(exp))
 }
