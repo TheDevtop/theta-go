@@ -49,4 +49,33 @@ var (
 		}
 		return mce.ErrInvalidArgs
 	}
+	siteApply types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		var (
+			fn types.Lambda
+			ok bool
+		)
+		if len(args) != 2 {
+			return mce.ErrInvalidArgs
+		}
+		if fn, ok = args[0].(types.Lambda); !ok {
+			return types.Message(types.KeyErr, "Invalid application type")
+		}
+		return fn(types.List{args[1]}, env)
+	}
+	siteMesg types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		if len(args) == 1 {
+			if msg, ok := args[0].(string); ok {
+				return types.List{types.KeyOk, msg}
+			}
+			return mce.ErrInvalidArgs
+		} else if len(args) == 2 {
+			key, okx := args[0].(types.Keyword)
+			msg, oky := args[1].(string)
+			if okx && oky {
+				return types.List{key, msg}
+			}
+			return mce.ErrInvalidArgs
+		}
+		return mce.ErrInvalidArgs
+	}
 )
