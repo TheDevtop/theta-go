@@ -10,6 +10,9 @@ import (
 	"github.com/TheDevtop/theta-go/pkg/types"
 )
 
+var errArith = types.Message(types.KeyErr, "Arithmatic error")
+
+// Library functions as typed lambdas
 var (
 	siteEqual types.Lambda = func(args types.List, env *types.Environment) types.Value {
 		if len(args) != 2 {
@@ -22,6 +25,54 @@ var (
 			return mce.ErrInvalidArgs
 		}
 		return args[0] != args[1]
+	}
+	siteAdd types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		if len(args) < 1 {
+			return mce.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return genAdd(genCast[int32](args))
+		case float32:
+			return genAdd(genCast[float32](args))
+		}
+		return errArith
+	}
+	siteMul types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		if len(args) < 1 {
+			return mce.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return genMul(genCast[int32](args))
+		case float32:
+			return genMul(genCast[float32](args))
+		}
+		return errArith
+	}
+	siteSub types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		if len(args) < 1 {
+			return mce.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return genSub(genCast[int32](args))
+		case float32:
+			return genSub(genCast[float32](args))
+		}
+		return errArith
+	}
+	siteDiv types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		if len(args) < 1 {
+			return mce.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return genDiv(genCast[int32](args))
+		case float32:
+			return genDiv(genCast[float32](args))
+		}
+		return errArith
 	}
 	siteLen types.Lambda = func(args types.List, env *types.Environment) types.Value {
 		return int32(len(args))
