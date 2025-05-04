@@ -1,5 +1,10 @@
 package mce
 
+/*
+	Theta virtual machine
+	Metacircular evaluator (eval/apply)
+*/
+
 import (
 	"github.com/TheDevtop/theta-go/pkg/types"
 )

@@ -1,5 +1,10 @@
 package types
 
+/*
+	Theta virtual machine
+	Utility functions for types
+*/
+
 import (
 	"fmt"
 )

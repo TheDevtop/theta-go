@@ -1,5 +1,10 @@
 package types
 
+/*
+	Theta virtual machine
+	Core types
+*/
+
 // Environment
 type Environment struct {
 	parent *Environment

@@ -1,5 +1,10 @@
 package sexp
 
+/*
+	Theta virtual machine
+	S-expression parser
+*/
+
 import (
 	"fmt"
 	"regexp"
