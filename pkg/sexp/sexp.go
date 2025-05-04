@@ -65,25 +65,26 @@ func parse(token string) types.Value {
 // Encode s-expression, returns string
 func Marshal(val types.Value) string {
 	ret := ""
-	switch val.(type) {
+	switch val := val.(type) {
 	case nil:
 		ret = string(keyNil)
 	case bool:
-		_, v := val.(bool)
-		ret = string(boolToKeyword(v))
+		ret = string(boolToKeyword(val))
 	case string:
-		ret = fmt.Sprint(val)
+		ret = val
 	case int32:
 		ret = fmt.Sprintf("%d", val)
 	case float32:
 		ret = fmt.Sprintf("%f", val)
-	case types.Symbol, types.Keyword:
-		ret = fmt.Sprintf("%s", val)
+	case types.Symbol:
+		ret = string(val)
+	case types.Keyword:
+		ret = string(val)
 	case types.Lambda:
 		ret = string(keyFn)
 	case types.List:
 		bucket := make([]string, 0, 8)
-		for _, v := range val.(types.List) {
+		for _, v := range val {
 			bucket = append(bucket, Marshal(v))
 		}
 		ret = fmt.Sprintf("(%s)", strings.Join(bucket, " "))
