@@ -13,7 +13,7 @@ type (
 	Symbol  string
 	Keyword string
 	Value   interface{}
-	List    []Value
+	List    = []Value
 )
 
 const (
@@ -67,6 +67,8 @@ func parse(token string) Value {
 func Marshal(val Value) string {
 	ret := ""
 	switch val.(type) {
+	case nil:
+		ret = string(KeyNil)
 	case bool:
 		_, v := val.(bool)
 		ret = string(boolToKeyword(v))
