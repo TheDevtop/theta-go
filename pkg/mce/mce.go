@@ -134,11 +134,11 @@ func evalCons(car types.Value, cdr types.List, env *types.Environment) types.Val
 }
 
 func Eval(exp types.Value, env *types.Environment) types.Value {
-	switch exp.(type) {
+	switch exp := exp.(type) {
 	case types.Symbol:
-		return env.Lookup(exp.(types.Symbol))
+		return env.Lookup(exp)
 	case types.List:
-		car, cdr := types.Cons(exp.(types.List))
+		car, cdr := types.Cons(exp)
 		return evalCons(car, cdr, env)
 	default:
 		return exp
