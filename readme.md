@@ -4,13 +4,13 @@
 
 ### On building Theta
 
-To build Theta, execute: `$ make`
+To build Theta, execute: `$ make build`
 
-This should produce the `./theta` executable.
+This should produce the `./bin/theta` and `./bin/threpl` executables.
 
 ### On installing Theta
 
-To install Theta, execute: `$ cp theta /usr/local/bin/theta`
+To install Theta, execute: `$ cp ./bin/* /usr/local/bin/`
 
 ### On using Theta
 
