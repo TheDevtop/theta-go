@@ -13,6 +13,7 @@ import (
 const (
 	keyTrue  types.Keyword = ":true"
 	keyFalse types.Keyword = ":false"
+	keyNil   types.Keyword = ":nil"
 	keyFn    types.Keyword = ":fn"
 )
 
@@ -53,6 +54,9 @@ func parse(token string) types.Value {
 		if k == keyFalse {
 			return false
 		}
+		if k == keyNil {
+			return nil
+		}
 		return k
 	}
 	return types.Symbol(token)
@@ -63,7 +67,7 @@ func Marshal(val types.Value) string {
 	ret := ""
 	switch val.(type) {
 	case nil:
-		ret = string(types.KeyNil)
+		ret = string(keyNil)
 	case bool:
 		_, v := val.(bool)
 		ret = string(boolToKeyword(v))
@@ -107,7 +111,7 @@ func Unmarshal(str string) types.Value {
 		}
 	}
 	if len(ret) == 0 {
-		return types.Value(nil)
+		return nil
 	}
 	return ret[0]
 }

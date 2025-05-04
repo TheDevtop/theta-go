@@ -7,7 +7,6 @@ import (
 const (
 	KeyOk  Keyword = ":ok"
 	KeyErr Keyword = ":err"
-	KeyNil Keyword = ":nil"
 )
 
 // Extract car and cdr out of list
