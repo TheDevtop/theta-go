@@ -10,7 +10,7 @@ import (
 	"github.com/TheDevtop/theta-go/pkg/types"
 )
 
-var errArith = types.Message(types.KeyErr, "Arithmatic error")
+var errArith = types.Message(types.KeyErr, "Arithmetic error")
 
 // Library functions as typed lambdas
 var (
@@ -73,6 +73,33 @@ var (
 			return genDiv(genCast[float32](args))
 		}
 		return errArith
+	}
+	siteAnd types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		for _, arg := range args {
+			if res, ok := arg.(bool); !ok {
+				return mce.ErrInvalidArgs
+			} else if !res {
+				return false
+			}
+		}
+		return true
+	}
+	siteOr types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		for _, arg := range args {
+			if res, ok := arg.(bool); !ok {
+				return mce.ErrInvalidArgs
+			} else if res {
+				return true
+			}
+		}
+		return false
+	}
+	siteXor types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		if len(args) != 2 {
+			return mce.ErrInvalidArgs
+		}
+		nargs := genCast[bool](args)
+		return nargs[0] != nargs[1]
 	}
 	siteLen types.Lambda = func(args types.List, env *types.Environment) types.Value {
 		return int32(len(args))

@@ -2,7 +2,7 @@ package site
 
 /*
 	Theta virtual machine
-	Arithmatic functions
+	Arithmetic functions
 */
 
 import "github.com/TheDevtop/theta-go/pkg/types"
