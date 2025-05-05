@@ -71,16 +71,16 @@ func applyDef(cdr types.List, env *types.Environment) types.Value {
 // (if COND THEN ELSE)
 func applyIf(cdr types.List, env *types.Environment) types.Value {
 	var (
-		condval bool
-		ok      bool
+		cond bool
+		ok   bool
 	)
 	if len(cdr) != 3 {
 		return ErrInvalidArgs
 	}
-	if condval, ok = Eval(cdr[0], env).(bool); !ok {
+	if cond, ok = Eval(cdr[0], env).(bool); !ok {
 		return ErrInvalidArgs
 	}
-	if condval {
+	if cond {
 		return Eval(cdr[1], env)
 	}
 	return Eval(cdr[2], env)
@@ -93,6 +93,30 @@ func applySeq(cdr types.List, env *types.Environment) types.Value {
 		val = Eval(exp, env)
 	}
 	return val
+}
+
+// (while COND EXP)
+func applyWhile(cdr types.List, env *types.Environment) types.Value {
+	var (
+		cond bool
+		ok   bool
+		val  types.Value = nil
+	)
+
+	if len(cdr) != 2 {
+		return ErrInvalidArgs
+	}
+
+	for {
+		if cond, ok = Eval(cdr[0], env).(bool); !ok {
+			return ErrInvalidArgs
+		}
+		if !cond {
+			return val
+		} else {
+			val = Eval(cdr[1], env)
+		}
+	}
 }
 
 func Apply(fn types.Lambda, args types.List, env *types.Environment) types.Value {
@@ -126,6 +150,8 @@ func evalCons(car types.Value, cdr types.List, env *types.Environment) types.Val
 		return applyFn(cdr, env)
 	case "seq":
 		return applySeq(cdr, env)
+	case "while":
+		return applyWhile(cdr, env)
 	}
 	if fn, ok = env.Lookup(op).(types.Lambda); !ok {
 		return errInvalidEval
