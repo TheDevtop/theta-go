@@ -5,10 +5,6 @@ package types
 	Utility functions for types
 */
 
-import (
-	"fmt"
-)
-
 const (
 	KeyOk  Keyword = ":ok"
 	KeyErr Keyword = ":err"
@@ -32,7 +28,7 @@ func Merge(car Value, cdr List) List {
 
 // Create message with status keyword
 func Message(stat Keyword, mesg string) Value {
-	return Value(List{stat, fmt.Sprintf("\"%s\"", mesg)})
+	return Value(List{stat, "\"" + mesg + "\""})
 }
 
 // Check if all list objects are consistent with type

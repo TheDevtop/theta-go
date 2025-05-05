@@ -92,7 +92,7 @@ func Marshal(val types.Value) string {
 		for _, v := range val {
 			bucket = append(bucket, Marshal(v))
 		}
-		ret = fmt.Sprintf("(%s)", strings.Join(bucket, " "))
+		ret = "(" + strings.Join(bucket, " ") + ")"
 	}
 	return ret
 }
