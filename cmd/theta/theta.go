@@ -1,5 +1,10 @@
 package main
 
+/*
+	Theta virtual machine
+	Server program
+*/
+
 import (
 	"fmt"
 	"io"
@@ -35,6 +40,7 @@ func main() {
 	env = types.InitEnvironment(site.SiteTable)
 	http.HandleFunc(csio.PathEval, handleEval)
 
+	log.Println("(Θ list processor)")
 	if err := http.ListenAndServe(csio.DefaultPort, nil); err != nil {
 		log.Println(err)
 	}
