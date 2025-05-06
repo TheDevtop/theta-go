@@ -21,6 +21,11 @@ func Cons(list List) (Value, List) {
 	return list[0], list[1:]
 }
 
+// Make a list from expressions
+func MakeList(exp ...Value) List {
+	return List(exp)
+}
+
 // Merge car and cdr into list
 func Merge(car Value, cdr List) List {
 	return append(List{car}, cdr...)
