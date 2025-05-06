@@ -12,7 +12,6 @@ import (
 	"strings"
 
 	"github.com/TheDevtop/theta-go/pkg/types"
-	"github.com/zyedidia/generic/stack"
 )
 
 const (
@@ -101,17 +100,22 @@ func Marshal(val types.Value) string {
 func Unmarshal(str string) types.Value {
 	var (
 		tokens = lex(str)
-		ret    = make(types.List, 0)
-		sptr   = stack.New[types.List]()
+		ret    = types.List{}
+		stack  = make([]types.List, 0)
 	)
 
 	for _, tok := range tokens {
 		switch tok {
 		case "(":
-			sptr.Push(ret)
-			ret = make(types.List, 0)
+			stack = append(stack, ret)
+			ret = types.List{}
 		case ")":
-			ret = append(sptr.Pop(), ret)
+			if len(stack) == 0 {
+				ret = append(types.List{}, ret)
+			} else {
+				ret = append(stack[len(stack)-1], ret)
+				stack = stack[:len(stack)-1]
+			}
 		default:
 			ret = append(ret, parse(tok))
 		}
