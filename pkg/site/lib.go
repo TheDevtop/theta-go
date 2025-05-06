@@ -156,4 +156,28 @@ var (
 		}
 		return mce.ErrInvalidArgs
 	}
+	siteMap types.Lambda = func(args types.List, env *types.Environment) types.Value {
+		var (
+			fn  types.Lambda
+			lst types.List
+			ok  bool
+		)
+
+		if len(args) != 2 {
+			return mce.ErrInvalidArgs
+		}
+		if fn, ok = args[0].(types.Lambda); !ok {
+			return mce.ErrInvalidType
+		}
+
+		// If not a list: map single value, return single.
+		// If a list: map values, return list of mapped values.
+		if lst, ok = args[1].(types.List); !ok {
+			return fn(types.List{args[1]}, env)
+		}
+		for i, exp := range lst {
+			lst[i] = fn(types.List{exp}, env)
+		}
+		return lst
+	}
 )

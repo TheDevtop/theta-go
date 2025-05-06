@@ -23,4 +23,5 @@ var SiteTable = map[types.Symbol]types.Value{
 	types.Symbol("cdr"):   siteCdr,
 	types.Symbol("apply"): siteApply,
 	types.Symbol("mesg"):  siteMesg,
+	types.Symbol("map"):   siteMap,
 }

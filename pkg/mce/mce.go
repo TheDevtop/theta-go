@@ -11,6 +11,7 @@ import (
 
 var (
 	ErrInvalidArgs = types.Message(types.KeyErr, "Invalid arguments")
+	ErrInvalidType = types.Message(types.KeyErr, "Invalid type or cast")
 	errInvalidEval = types.Message(types.KeyErr, "Invalid evaluation form")
 )
 
