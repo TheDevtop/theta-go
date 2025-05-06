@@ -1,6 +1,6 @@
 package core
 
-import "theta-ng/pkg/core/types"
+import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 var (
 	// Operational keywords

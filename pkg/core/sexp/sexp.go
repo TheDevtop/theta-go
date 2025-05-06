@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"theta-ng/pkg/core/types"
+	"github.com/TheDevtop/theta-go/pkg/core/types"
 )
 
 const (

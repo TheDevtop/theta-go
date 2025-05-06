@@ -1,6 +1,6 @@
 package core
 
-import "theta-ng/pkg/core/types"
+import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 // Construct and apply arguments to function
 func Apply(env *types.Environment, fn types.Function, exp ...types.Expression) types.Expression {
