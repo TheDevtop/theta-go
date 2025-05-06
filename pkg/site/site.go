@@ -1,27 +1,25 @@
 package site
 
-/*
-	Theta virtual machine
-	Site construction (initial environment)
-*/
+import "github.com/TheDevtop/theta-go/pkg/core/types"
 
-import "github.com/TheDevtop/theta-go/pkg/types"
-
-var SiteTable = map[types.Symbol]types.Value{
-	types.Symbol("=="):    siteEqual,
-	types.Symbol("!="):    siteNequal,
-	types.Symbol("+"):     siteAdd,
-	types.Symbol("*"):     siteMul,
-	types.Symbol("-"):     siteSub,
-	types.Symbol("/"):     siteDiv,
-	types.Symbol("and"):   siteAnd,
-	types.Symbol("or"):    siteOr,
-	types.Symbol("xor"):   siteXor,
-	types.Symbol("len"):   siteLen,
-	types.Symbol("list"):  siteList,
-	types.Symbol("car"):   siteCar,
-	types.Symbol("cdr"):   siteCdr,
-	types.Symbol("apply"): siteApply,
-	types.Symbol("mesg"):  siteMesg,
-	types.Symbol("map"):   siteMap,
+var DefaultSite *types.Environment = &types.Environment{
+	Parent: nil,
+	Table: map[types.Symbol]types.Expression{
+		types.Symbol("=="): siteEqual,
+		types.Symbol("!="): siteNequal,
+		// types.Symbol("+"):     siteAdd,
+		// types.Symbol("*"):     siteMul,
+		// types.Symbol("-"):     siteSub,
+		// types.Symbol("/"):     siteDiv,
+		types.Symbol("and"):   siteAnd,
+		types.Symbol("or"):    siteOr,
+		types.Symbol("xor"):   siteXor,
+		types.Symbol("len"):   siteLen,
+		types.Symbol("list"):  siteList,
+		types.Symbol("car"):   siteCar,
+		types.Symbol("cdr"):   siteCdr,
+		types.Symbol("apply"): siteApply,
+		types.Symbol("mesg"):  siteMesg,
+		types.Symbol("map"):   siteMap,
+	},
 }

@@ -28,7 +28,7 @@ func Eval(env *types.Environment, exp types.Expression) types.Expression {
 		}
 		switch sym {
 		case "quote":
-			return cdr
+			return applyQuote(env, cdr...)
 		case "def":
 			return applyDef(env, cdr...)
 		case "if":

@@ -2,6 +2,18 @@ package core
 
 import "github.com/TheDevtop/theta-go/pkg/core/types"
 
+// Pass evaluation on arguments
+// (quote EXP...)
+func applyQuote(_ *types.Environment, exp ...types.Expression) types.Expression {
+	if len(exp) < 1 {
+		return ErrInvalidArgs
+	} else if len(exp) == 1 {
+		return exp[0]
+	} else {
+		return exp
+	}
+}
+
 // Define a new abstraction
 // (def SYMBOL EXP)
 func applyDef(env *types.Environment, exp ...types.Expression) types.Expression {
