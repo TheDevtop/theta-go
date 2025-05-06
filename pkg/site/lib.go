@@ -1,10 +1,5 @@
 package site
 
-/*
-	Theta virtual machine
-	Site library
-*/
-
 import (
 	"github.com/TheDevtop/theta-go/pkg/core"
 	"github.com/TheDevtop/theta-go/pkg/core/types"
@@ -23,10 +18,84 @@ var (
 		}
 		return args[0] != args[1]
 	}
-	// siteAdd types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {}
-	// siteMul types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {}
-	// siteSub types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {}
-	// siteDiv types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {}
+	siteAdd types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) < 1 {
+			return core.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return arithAdd(types.Cast[int32](args...)...)
+		case float32:
+			return arithAdd(types.Cast[float32](args...)...)
+		default:
+			return core.ErrInvalidType
+		}
+	}
+	siteMul types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) < 1 {
+			return core.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return arithMul(types.Cast[int32](args...)...)
+		case float32:
+			return arithMul(types.Cast[float32](args...)...)
+		default:
+			return core.ErrInvalidType
+		}
+	}
+	siteSub types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) < 1 {
+			return core.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return arithSub(types.Cast[int32](args...)...)
+		case float32:
+			return arithSub(types.Cast[float32](args...)...)
+		default:
+			return core.ErrInvalidType
+		}
+	}
+	siteDiv types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) < 1 {
+			return core.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return arithDiv(types.Cast[int32](args...)...)
+		case float32:
+			return arithDiv(types.Cast[float32](args...)...)
+		default:
+			return core.ErrInvalidType
+		}
+	}
+	siteLesser types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) < 2 {
+			return core.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return arithLesser(types.Cast[int32](args...)...)
+		case float32:
+			return arithLesser(types.Cast[float32](args...)...)
+		default:
+			return core.ErrInvalidType
+		}
+	}
+	siteGreater types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) < 2 {
+			return core.ErrInvalidArgs
+		}
+		switch args[0].(type) {
+		case int32:
+			return arithGreater(types.Cast[int32](args...)...)
+		case float32:
+			return arithGreater(types.Cast[float32](args...)...)
+		default:
+			return core.ErrInvalidType
+		}
+	}
 	siteAnd types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		for _, arg := range args {
 			if res, ok := arg.(bool); !ok {
@@ -85,13 +154,13 @@ var (
 			fn types.Function
 			ok bool
 		)
-		if len(args) != 2 {
+		if len(args) < 2 {
 			return core.ErrInvalidArgs
 		}
 		if fn, ok = args[0].(types.Function); !ok {
 			return core.ErrInvalidType
 		}
-		return fn(env, types.List{args[1]})
+		return fn(env, args[1:]...)
 	}
 	siteMesg types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) == 1 {
@@ -115,44 +184,26 @@ var (
 			list types.List
 			ok   bool
 		)
-
 		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
 		if fn, ok = args[0].(types.Function); !ok {
 			return core.ErrInvalidType
 		}
-
-		// If not a list: map single value, return single.
-		// If a list: map values, return list of mapped values.
 		if list, ok = args[1].(types.List); !ok {
-			return fn(env, types.List{args[1]})
+			return core.ErrInvalidType
 		}
+
 		for i, exp := range list {
-			list[i] = fn(env, types.List{exp})
+			list[i] = fn(env, exp)
 		}
 		return list
 	}
 )
 
 // Library functions as typed lambdas
-// var (
-// 	siteEqual types.Lambda = func(args types.List, env *types.Environment) types.Value {
+// siteAdd types.Lambda = func(args types.List, env *types.Environment) types.Value {
 
-// 	siteNequal types.Lambda = func(args types.List, env *types.Environment) types.Value {
-
-// 	}
-// 	siteAdd types.Lambda = func(args types.List, env *types.Environment) types.Value {
-// 		if len(args) < 1 {
-// 			return mce.ErrInvalidArgs
-// 		}
-// 		switch args[0].(type) {
-// 		case int32:
-// 			return genAdd(genCast[int32](args))
-// 		case float32:
-// 			return genAdd(genCast[float32](args))
-// 		}
-// 		return errArith
 // 	}
 // 	siteMul types.Lambda = func(args types.List, env *types.Environment) types.Value {
 // 		if len(args) < 1 {
@@ -190,28 +241,3 @@ var (
 // 		}
 // 		return errArith
 // 	}
-// 	siteAnd types.Lambda = func(args types.List, env *types.Environment) types.Value {
-
-// 	}
-// 	siteOr types.Lambda = func(args types.List, env *types.Environment) types.Value {
-
-// 	}
-// 	siteXor types.Lambda = func(args types.List, env *types.Environment) types.Value {
-
-// 	siteLen types.Lambda = func(args types.List, env *types.Environment) types.Value {
-// 		return int32(len(args))
-// 	}
-// 	siteList types.Lambda = func(args types.List, env *types.Environment) types.Value {
-// 		return args
-// 	}
-// 	siteCar types.Lambda = func(args types.List, env *types.Environment) types.Value {
-
-// 	}
-// 	siteCdr types.Lambda = func(args types.List, env *types.Environment) types.Value {
-
-// 	}
-// 	siteA
-// 	}
-// 	siteMap types.Lambda = func(args types.List, env *types.Environment) types.Value {
-// 	}
-// )

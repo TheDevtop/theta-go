@@ -84,21 +84,22 @@ func applySeq(env *types.Environment, exp ...types.Expression) types.Expression 
 }
 
 // Compose function
-// (fn ARG-SYMBOLS EXP)
+// (fn (SYMBOLS...) EXP)
 func applyFn(_ *types.Environment, exp ...types.Expression) types.Expression {
 	var (
 		args []types.Symbol
 		body types.Expression
 		fn   types.Function
-		ok   bool
 	)
 
 	if len(exp) != 2 {
 		return ErrInvalidArgs
 	}
 	body = exp[1]
-	if args, ok = exp[0].([]types.Symbol); !ok {
+	if list, ok := exp[0].(types.List); !ok {
 		return ErrInvalidType
+	} else {
+		args = types.Cast[types.Symbol](list...)
 	}
 
 	fn = func(env *types.Environment, exp ...types.Expression) types.Expression {
@@ -114,7 +115,7 @@ func applyFn(_ *types.Environment, exp ...types.Expression) types.Expression {
 			fenv.Modify(arg, exp[i])
 		}
 		fenv.Link(env)
-		return Eval(env, body)
+		return Eval(fenv, body)
 	}
 	return fn
 }
