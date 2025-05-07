@@ -3,7 +3,7 @@ package core
 import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 // Construct and apply arguments to function
-func Apply(env *types.Environment, fn types.Function, exp ...types.Expression) types.Expression {
+func apply(env *types.Environment, fn types.Function, exp ...types.Expression) types.Expression {
 	var args types.List = make(types.List, len(exp))
 	for i, e := range exp {
 		args[i] = Eval(env, e)
@@ -43,7 +43,7 @@ func Eval(env *types.Environment, exp types.Expression) types.Expression {
 		if fn, ok = env.Lookup(sym).(types.Function); !ok {
 			return ErrInvalidType
 		}
-		return Apply(env, fn, cdr...)
+		return apply(env, fn, cdr...)
 	default:
 		return exp
 	}

@@ -5,7 +5,7 @@ import "github.com/TheDevtop/theta-go/pkg/core/types"
 var DefaultSite *types.Environment = &types.Environment{
 	Parent: nil,
 	Table: map[types.Symbol]types.Expression{
-		types.Symbol("=="):    siteEqual,
+		types.Symbol("="):     siteEqual,
 		types.Symbol("!="):    siteNequal,
 		types.Symbol("+"):     siteAdd,
 		types.Symbol("*"):     siteMul,
@@ -16,6 +16,7 @@ var DefaultSite *types.Environment = &types.Environment{
 		types.Symbol("and"):   siteAnd,
 		types.Symbol("or"):    siteOr,
 		types.Symbol("xor"):   siteXor,
+		types.Symbol("not"):   siteNot,
 		types.Symbol("len"):   siteLen,
 		types.Symbol("list"):  siteList,
 		types.Symbol("car"):   siteCar,

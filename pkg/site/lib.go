@@ -123,7 +123,17 @@ var (
 		nargs := types.Cast[bool](args...)
 		return nargs[0] != nargs[1]
 	}
+	siteNot types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) != 1 {
+			return core.ErrInvalidArgs
+		}
+		nargs := types.Cast[bool](args...)
+		return !nargs[0]
+	}
 	siteLen types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) != 1 {
+			return core.ErrInvalidArgs
+		}
 		return int32(len(args))
 	}
 	siteList types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
@@ -133,21 +143,23 @@ var (
 		if len(args) != 1 {
 			return core.ErrInvalidArgs
 		}
-		if arg, ok := args[0].(types.List); ok {
+		if arg, ok := args[0].(types.List); !ok {
+			return core.ErrInvalidType
+		} else {
 			car, _ := types.Cons(arg)
 			return car
 		}
-		return core.ErrInvalidType
 	}
 	siteCdr types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 1 {
 			return core.ErrInvalidArgs
 		}
-		if arg, ok := args[0].(types.List); ok {
+		if arg, ok := args[0].(types.List); !ok {
+			return core.ErrInvalidType
+		} else {
 			_, cdr := types.Cons(arg)
 			return cdr
 		}
-		return core.ErrInvalidType
 	}
 	siteApply types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (

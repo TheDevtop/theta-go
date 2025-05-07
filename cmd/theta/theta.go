@@ -13,6 +13,10 @@ import (
 	"github.com/TheDevtop/theta-go/pkg/site"
 )
 
+func handleStatus(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, sexp.Encode(core.KeyOk))
+}
+
 func handleEval(w http.ResponseWriter, r *http.Request) {
 	var (
 		err error
@@ -32,6 +36,7 @@ func handleEval(w http.ResponseWriter, r *http.Request) {
 func main() {
 
 	http.HandleFunc(csio.PathEval, handleEval)
+	http.HandleFunc(csio.PathStatus, handleStatus)
 
 	log.Println("Theta list processor")
 	if err := http.ListenAndServe(csio.DefaultPort, nil); err != nil {

@@ -26,7 +26,7 @@ func postExp(addr string, exp string) (string, error) {
 		buf  []byte
 	)
 	addr = "http://" + addr + csio.PathEval
-	if res, err = http.Post(addr, "text/x-elisp", body); err != nil {
+	if res, err = http.Post(addr, csio.Mime, body); err != nil {
 		return "", err
 	}
 	if buf, err = io.ReadAll(res.Body); err != nil {
@@ -59,6 +59,7 @@ func repl(addr string) {
 		}
 		if ln, err = postExp(addr, ln); err != nil {
 			fmt.Println(err)
+			continue
 		}
 		fmt.Println(ln)
 	}

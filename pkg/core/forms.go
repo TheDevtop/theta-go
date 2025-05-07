@@ -63,7 +63,7 @@ func applyWhile(env *types.Environment, exp ...types.Expression) types.Expressio
 	}
 	for {
 		if cond, ok = Eval(env, exp[0]).(bool); !ok {
-			return ErrInvalidArgs
+			return ErrInvalidType
 		}
 		if !cond {
 			return retExp
