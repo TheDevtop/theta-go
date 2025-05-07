@@ -42,6 +42,8 @@ func Eval(env *types.Environment, exp types.Expression) types.Expression {
 			return applyWhile(env, cdr...)
 		case "seq":
 			return applySeq(env, cdr...)
+		case "let":
+			return applyLet(env, cdr...)
 		case "fn":
 			return applyFn(env, cdr...)
 		}

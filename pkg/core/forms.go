@@ -8,15 +8,12 @@ package core
 import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 // Pass evaluation on arguments
-// (quote EXP...)
+// (quote EXP)
 func applyQuote(_ *types.Environment, exp ...types.Expression) types.Expression {
-	if len(exp) < 1 {
+	if len(exp) != 1 {
 		return ErrInvalidArgs
-	} else if len(exp) == 1 {
-		return exp[0]
-	} else {
-		return exp
 	}
+	return exp[0]
 }
 
 // Define a new abstraction
@@ -86,6 +83,40 @@ func applySeq(env *types.Environment, exp ...types.Expression) types.Expression 
 		retExp = Eval(env, e)
 	}
 	return retExp
+}
+
+// Let expression
+// (let ((SYM INIT-EXP)...) EXP...)
+func applyLet(env *types.Environment, exp ...types.Expression) types.Expression {
+	if len(exp) < 2 {
+		return ErrInvalidArgs
+	}
+	var (
+		bodyExp    = exp[1:]
+		sePairList types.List
+		ok         bool
+		nenv       *types.Environment
+	)
+	if sePairList, ok = exp[0].(types.List); !ok {
+		return ErrInvalidType
+	}
+	nenv = types.NewEnvironment(len(sePairList))
+	for _, sePair := range sePairList {
+		// Extract symbol/expression pair out of the list
+		// Extract symbol out of pair
+		if sePair, ok := sePair.(types.List); !ok {
+			return ErrInvalidType
+		} else if len(sePair) != 2 {
+			return ErrInvalidArgs
+		} else if sym, ok := sePair[0].(types.Symbol); !ok {
+			return ErrInvalidType
+		} else {
+			// Bind symbol with the evaluation of the expression
+			nenv.Modify(sym, Eval(env, sePair[1]))
+		}
+	}
+	nenv.Link(env)
+	return applySeq(nenv, bodyExp...)
 }
 
 // Compose function
