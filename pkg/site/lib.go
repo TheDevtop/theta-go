@@ -172,6 +172,17 @@ var (
 		slices.Reverse(args)
 		return args
 	}
+	siteAppend types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) < 2 {
+			return core.ErrInvalidArgs
+		}
+		if list, ok := args[0].(types.List); !ok {
+			return core.ErrInvalidType
+		} else {
+			rest := args[1:]
+			return append(list, rest...)
+		}
+	}
 	siteApply types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
 			fn types.Function
