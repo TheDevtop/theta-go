@@ -6,6 +6,8 @@ package site
 */
 
 import (
+	"slices"
+
 	"github.com/TheDevtop/theta-go/pkg/core"
 	"github.com/TheDevtop/theta-go/pkg/core/types"
 )
@@ -166,6 +168,10 @@ var (
 			return cdr
 		}
 	}
+	siteRev types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		slices.Reverse(args)
+		return args
+	}
 	siteApply types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
 			fn types.Function
@@ -216,45 +222,36 @@ var (
 		}
 		return list
 	}
+	siteIsNil types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		for _, arg := range args {
+			if arg != nil {
+				return false
+			}
+		}
+		return true
+	}
+	siteIsBoolean types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[bool](args...)
+	}
+	siteIsString types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[string](args...)
+	}
+	siteIsInteger types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[int32](args...)
+	}
+	siteIsFloating types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[float32](args...)
+	}
+	siteIsSymbol types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[types.Symbol](args...)
+	}
+	siteIsKeyword types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[types.Keyword](args...)
+	}
+	siteIsFunction types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[types.Function](args...)
+	}
+	siteIsList types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[types.List](args...)
+	}
 )
-
-// Library functions as typed lambdas
-// siteAdd types.Lambda = func(args types.List, env *types.Environment) types.Value {
-
-// 	}
-// 	siteMul types.Lambda = func(args types.List, env *types.Environment) types.Value {
-// 		if len(args) < 1 {
-// 			return mce.ErrInvalidArgs
-// 		}
-// 		switch args[0].(type) {
-// 		case int32:
-// 			return genMul(genCast[int32](args))
-// 		case float32:
-// 			return genMul(genCast[float32](args))
-// 		}
-// 		return errArith
-// 	}
-// 	siteSub types.Lambda = func(args types.List, env *types.Environment) types.Value {
-// 		if len(args) < 1 {
-// 			return mce.ErrInvalidArgs
-// 		}
-// 		switch args[0].(type) {
-// 		case int32:
-// 			return genSub(genCast[int32](args))
-// 		case float32:
-// 			return genSub(genCast[float32](args))
-// 		}
-// 		return errArith
-// 	}
-// 	siteDiv types.Lambda = func(args types.List, env *types.Environment) types.Value {
-// 		if len(args) < 1 {
-// 			return mce.ErrInvalidArgs
-// 		}
-// 		switch args[0].(type) {
-// 		case int32:
-// 			return genDiv(genCast[int32](args))
-// 		case float32:
-// 			return genDiv(genCast[float32](args))
-// 		}
-// 		return errArith
-// 	}

@@ -52,3 +52,19 @@ func (env *Environment) Link(penv *Environment) {
 	}
 	env.Parent = penv
 }
+
+// Recursive dump of environment
+func (env *Environment) Dump() List {
+	var (
+		sym  Symbol
+		exp  Expression
+		list = make(List, 0)
+	)
+	if env.Parent != nil {
+		list = append(list, env.Parent.Dump()...)
+	}
+	for sym, exp = range env.Table {
+		list = append(list, List{sym, exp})
+	}
+	return list
+}
