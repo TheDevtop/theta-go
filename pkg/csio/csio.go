@@ -1,7 +1,7 @@
 package csio
 
 /*
-	Theta virtual machine
+	Theta list processor
 	Client/Server I/O
 */
 

@@ -1,5 +1,10 @@
 package types
 
+/*
+	Theta list processor
+	Type utility functions
+*/
+
 // Extract car and cdr out of list
 func Cons(list List) (Expression, List) {
 	if len(list) < 1 {

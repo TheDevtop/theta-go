@@ -1,5 +1,10 @@
 package site
 
+/*
+	Theta list processor
+	Specialized arithmetic
+*/
+
 type number = interface{ int32 | float32 }
 
 func arithAdd[T number](set ...T) T {

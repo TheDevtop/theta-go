@@ -1,5 +1,10 @@
 package site
 
+/*
+	Theta list processor
+	Site construction
+*/
+
 import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 var DefaultSite *types.Environment = &types.Environment{

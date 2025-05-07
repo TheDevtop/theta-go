@@ -1,5 +1,10 @@
 package core
 
+/*
+	Theta list processor
+	Evaluator
+*/
+
 import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 // Construct and apply arguments to function

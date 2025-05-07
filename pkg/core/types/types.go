@@ -1,5 +1,10 @@
 package types
 
+/*
+	Theta list processor
+	Core types
+*/
+
 type Environment struct {
 	Parent *Environment
 	Table  map[Symbol]Expression

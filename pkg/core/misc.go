@@ -1,5 +1,10 @@
 package core
 
+/*
+	Theta list processor
+	Misc
+*/
+
 import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 var (

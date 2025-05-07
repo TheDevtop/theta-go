@@ -1,5 +1,10 @@
 package types
 
+/*
+	Theta list processor
+	Environment methods
+*/
+
 // Allocate and initialize environment with specified size
 func NewEnvironment(size int) *Environment {
 	var env = new(Environment)

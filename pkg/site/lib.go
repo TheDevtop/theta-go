@@ -1,5 +1,10 @@
 package site
 
+/*
+	Theta list processor
+	Site implementation
+*/
+
 import (
 	"github.com/TheDevtop/theta-go/pkg/core"
 	"github.com/TheDevtop/theta-go/pkg/core/types"

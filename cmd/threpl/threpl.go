@@ -1,8 +1,8 @@
 package main
 
 /*
-	Theta virtual machine
-	Client program and repl
+	Theta list processor
+	Server-side program and repl
 */
 
 import (

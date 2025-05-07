@@ -1,5 +1,10 @@
 package main
 
+/*
+	Theta list processor
+	Server-side program
+*/
+
 import (
 	"fmt"
 	"io"

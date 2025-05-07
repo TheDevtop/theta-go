@@ -1,5 +1,10 @@
 package core
 
+/*
+	Theta list processor
+	Special evaluation forms
+*/
+
 import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 // Pass evaluation on arguments
