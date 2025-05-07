@@ -41,7 +41,7 @@ func arithDiv[T number](set ...T) T {
 
 func arithLesser[T number](set ...T) bool {
 	for _, v := range set[1:] {
-		if set[0] > v {
+		if set[0] >= v {
 			return false
 		}
 	}
@@ -50,7 +50,7 @@ func arithLesser[T number](set ...T) bool {
 
 func arithGreater[T number](set ...T) bool {
 	for _, v := range set[1:] {
-		if set[0] < v {
+		if set[0] <= v {
 			return false
 		}
 	}

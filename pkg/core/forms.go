@@ -34,7 +34,7 @@ func applyDef(env *types.Environment, exp ...types.Expression) types.Expression 
 }
 
 // Conditional evaluation
-// (if CONDITIONAL THEN-EXP ELSE-EXP)
+// (if COND THEN-EXP ELSE-EXP)
 func applyIf(env *types.Environment, exp ...types.Expression) types.Expression {
 	var (
 		cond bool
@@ -53,12 +53,12 @@ func applyIf(env *types.Environment, exp ...types.Expression) types.Expression {
 }
 
 // While condition evaluate
-// (while CONDITIONAL EXP)
+// (while COND EXP...)
 func applyWhile(env *types.Environment, exp ...types.Expression) types.Expression {
 	var (
-		cond   bool
 		ok     bool
-		retExp types.Expression = nil
+		cond   bool
+		retExp types.Expression
 	)
 	if len(exp) != 2 {
 		return ErrInvalidArgs
@@ -66,12 +66,10 @@ func applyWhile(env *types.Environment, exp ...types.Expression) types.Expressio
 	for {
 		if cond, ok = Eval(env, exp[0]).(bool); !ok {
 			return ErrInvalidType
-		}
-		if !cond {
+		} else if !cond {
 			return retExp
-		} else {
-			retExp = Eval(env, exp[1])
 		}
+		retExp = applySeq(env, exp[1:]...)
 	}
 }
 
