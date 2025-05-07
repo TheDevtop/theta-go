@@ -14,7 +14,7 @@ To install Theta, execute: `$ cp ./bin/* /usr/local/bin/`
 
 ### On using Theta
 
-_Currently under construction..._
+Read the [Thenual](doc/thenual.md).
 
 ### On naming Theta
 
