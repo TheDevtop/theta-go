@@ -21,3 +21,23 @@ var (
 func Message(key types.Keyword, mesg string) types.Expression {
 	return types.List{key, "\"" + mesg + "\""}
 }
+
+// Construct a lambda function
+func Lambda(args []types.Symbol, body types.Expression) types.Function {
+	var fn types.Function = func(env *types.Environment, exp ...types.Expression) types.Expression {
+		var (
+			args  = args
+			body  = body
+			fnenv = types.NewEnvironment(len(args))
+		)
+		if len(exp) != len(args) {
+			return ErrInvalidArgs
+		}
+		for i, arg := range args {
+			fnenv.Modify(arg, exp[i])
+		}
+		fnenv.Link(env)
+		return Eval(fnenv, body)
+	}
+	return fn
+}

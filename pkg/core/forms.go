@@ -117,13 +117,12 @@ func applyLet(env *types.Environment, exp ...types.Expression) types.Expression 
 	return applySeq(nenv, bodyExp...)
 }
 
-// Compose function
+// Compose function via Lambda()
 // (fn (SYMBOLS...) EXP)
 func applyFn(_ *types.Environment, exp ...types.Expression) types.Expression {
 	var (
 		args []types.Symbol
 		body types.Expression
-		fn   types.Function
 	)
 
 	if len(exp) != 2 {
@@ -135,21 +134,5 @@ func applyFn(_ *types.Environment, exp ...types.Expression) types.Expression {
 	} else {
 		args = types.Cast[types.Symbol](list...)
 	}
-
-	fn = func(env *types.Environment, exp ...types.Expression) types.Expression {
-		var (
-			args = args
-			body = body
-			fenv = types.NewEnvironment(len(args))
-		)
-		if len(args) != len(exp) {
-			return ErrInvalidArgs
-		}
-		for i, arg := range args {
-			fenv.Modify(arg, exp[i])
-		}
-		fenv.Link(env)
-		return Eval(fenv, body)
-	}
-	return fn
+	return Lambda(args, body)
 }
