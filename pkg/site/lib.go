@@ -30,10 +30,10 @@ var (
 			return core.ErrInvalidArgs
 		}
 		switch args[0].(type) {
-		case int32:
-			return arithAdd(types.Cast[int32](args...)...)
-		case float32:
-			return arithAdd(types.Cast[float32](args...)...)
+		case int:
+			return arithAdd(arithCast[int](args...)...)
+		case float64:
+			return arithAdd(arithCast[float64](args...)...)
 		default:
 			return core.ErrInvalidType
 		}
@@ -43,10 +43,10 @@ var (
 			return core.ErrInvalidArgs
 		}
 		switch args[0].(type) {
-		case int32:
-			return arithMul(types.Cast[int32](args...)...)
-		case float32:
-			return arithMul(types.Cast[float32](args...)...)
+		case int:
+			return arithMul(arithCast[int](args...)...)
+		case float64:
+			return arithMul(arithCast[float64](args...)...)
 		default:
 			return core.ErrInvalidType
 		}
@@ -56,10 +56,10 @@ var (
 			return core.ErrInvalidArgs
 		}
 		switch args[0].(type) {
-		case int32:
-			return arithSub(types.Cast[int32](args...)...)
-		case float32:
-			return arithSub(types.Cast[float32](args...)...)
+		case int:
+			return arithSub(arithCast[int](args...)...)
+		case float64:
+			return arithSub(arithCast[float64](args...)...)
 		default:
 			return core.ErrInvalidType
 		}
@@ -69,10 +69,10 @@ var (
 			return core.ErrInvalidArgs
 		}
 		switch args[0].(type) {
-		case int32:
-			return arithDiv(types.Cast[int32](args...)...)
-		case float32:
-			return arithDiv(types.Cast[float32](args...)...)
+		case int:
+			return arithDiv(arithCast[int](args...)...)
+		case float64:
+			return arithDiv(arithCast[float64](args...)...)
 		default:
 			return core.ErrInvalidType
 		}
@@ -82,10 +82,10 @@ var (
 			return core.ErrInvalidArgs
 		}
 		switch args[0].(type) {
-		case int32:
-			return arithLesser(types.Cast[int32](args...)...)
-		case float32:
-			return arithLesser(types.Cast[float32](args...)...)
+		case int:
+			return arithLesser(arithCast[int](args...)...)
+		case float64:
+			return arithLesser(arithCast[float64](args...)...)
 		default:
 			return core.ErrInvalidType
 		}
@@ -95,10 +95,10 @@ var (
 			return core.ErrInvalidArgs
 		}
 		switch args[0].(type) {
-		case int32:
-			return arithGreater(types.Cast[int32](args...)...)
-		case float32:
-			return arithGreater(types.Cast[float32](args...)...)
+		case int:
+			return arithGreater(arithCast[int](args...)...)
+		case float64:
+			return arithGreater(arithCast[float64](args...)...)
 		default:
 			return core.ErrInvalidType
 		}
@@ -141,7 +141,7 @@ var (
 		if len(args) != 1 {
 			return core.ErrInvalidArgs
 		}
-		return int32(len(args))
+		return len(args)
 	}
 	siteList types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return args
@@ -248,10 +248,10 @@ var (
 		return types.IsConsistent[string](args...)
 	}
 	siteIsInteger types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
-		return types.IsConsistent[int32](args...)
+		return types.IsConsistent[int](args...)
 	}
 	siteIsFloating types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
-		return types.IsConsistent[float32](args...)
+		return types.IsConsistent[float64](args...)
 	}
 	siteIsSymbol types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[types.Symbol](args...)

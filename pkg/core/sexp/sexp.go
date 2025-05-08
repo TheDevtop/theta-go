@@ -6,7 +6,6 @@ package sexp
 */
 
 import (
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -50,10 +49,10 @@ func parse(token string) types.Expression {
 		return token
 	}
 	if i, err := strconv.Atoi(token); err == nil {
-		return int32(i)
+		return i
 	}
 	if f, err := strconv.ParseFloat(token, 32); err == nil {
-		return float32(f)
+		return f
 	}
 	if k, ok := isKeyword(token); ok {
 		if k == keyTrue {
@@ -110,10 +109,10 @@ func Encode(exp types.Expression) string {
 		ret = string(boolToKeyword(exp))
 	case string:
 		ret = exp
-	case int32:
-		ret = fmt.Sprintf("%d", exp)
-	case float32:
-		ret = fmt.Sprintf("%f", exp)
+	case int:
+		ret = strconv.Itoa(exp)
+	case float64:
+		ret = strconv.FormatFloat(exp, 'f', 4, 32)
 	case types.Symbol:
 		ret = string(exp)
 	case types.Keyword:
