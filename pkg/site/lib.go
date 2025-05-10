@@ -169,8 +169,15 @@ var (
 		}
 	}
 	siteRev types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
-		slices.Reverse(args)
-		return args
+		if len(args) != 1 {
+			return core.ErrInvalidArgs
+		}
+		if arg, ok := args[0].(types.List); !ok {
+			return core.ErrInvalidType
+		} else {
+			slices.Reverse(arg)
+			return arg
+		}
 	}
 	siteAppend types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 2 {
