@@ -179,6 +179,19 @@ var (
 			return arg
 		}
 	}
+	siteMem types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		var (
+			list types.List
+			ok   bool
+		)
+		if len(args) != 2 {
+			return core.ErrInvalidArgs
+		}
+		if list, ok = args[1].(types.List); !ok {
+			return core.ErrInvalidType
+		}
+		return slices.Contains(list, args[0])
+	}
 	siteAppend types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 2 {
 			return core.ErrInvalidArgs

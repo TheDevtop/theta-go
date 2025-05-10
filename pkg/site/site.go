@@ -27,6 +27,7 @@ var DefaultSite *types.Environment = &types.Environment{
 		types.Symbol("car"):    siteCar,
 		types.Symbol("cdr"):    siteCdr,
 		types.Symbol("rev"):    siteRev,
+		types.Symbol("mem"):    siteMem,
 		types.Symbol("append"): siteAppend,
 		types.Symbol("apply"):  siteApply,
 		types.Symbol("mesg"):   siteMesg,

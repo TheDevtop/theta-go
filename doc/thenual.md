@@ -69,7 +69,34 @@ Evaluate with local bindings.
 
 ### Site/Standard library
 
-**Name**
-Desc.
-- Syntax: `()`
-- Example: `()` => ``
+**Equal**
+Check equality.
+- Syntax: `(= X Y)`
+- Example: `(= 4 4)` => `:true`
+- Example: `(= "Hello" "Goodbye")` => `:false`
+
+**Inequality**
+Check equality.
+- Syntax: `(!= X Y)`
+- Example: `(!= 4 4)` => `:false`
+- Example: `(!= "Hello" "Goodbye")` => `:true`
+
+**Add**
+Add numbers.
+- Syntax: `(+ EXP...)`
+- Example: `(+ 8 2)` => `10`
+
+**Subtract**
+Subtract numbers.
+- Syntax: `(- EXP...)`
+- Example: `(- 10 5 3)` => `2`
+
+**Multiply**
+Multiply numbers.
+- Syntax: `(* EXP...)`
+- Example: `(* 3.14 2.2)` => `6.9080`
+
+**Divide**
+Divide numbers.
+- Syntax: `(/ EXP...)`
+- Example: `(/ 7 5)` => `1`
