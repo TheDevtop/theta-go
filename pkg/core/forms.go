@@ -30,7 +30,7 @@ func applyDef(env *types.Environment, exp ...types.Expression) types.Expression 
 		return ErrInvalidType
 	}
 	env.Modify(sym, Eval(env, exp[1]))
-	return KeyOk
+	return sym
 }
 
 // Conditional evaluation

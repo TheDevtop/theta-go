@@ -35,7 +35,7 @@ Skip evaluation on expression.
 **Define**
 Define new symbolic abstraction.
 - Syntax: `(def SYMBOL EXP)`
-- Example: `(def deca 10)` => `:ok`
+- Example: `(def deca 10)` => `deca`
 - Example: `deca` => `10`
 
 **If Expression**
