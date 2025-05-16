@@ -58,7 +58,7 @@ Evaluate multiple expressions, return last expression.
 
 **Lambda expression**
 Construct an anonymous function.
-- Syntax: `(fn (SYM...) EXP)`
+- Syntax: `(fn (SYM...) EXP)`, `(lambda (SYM...) EXP)`
 - Example: `(fn (i) (+ i 1))` => `:fn`
 - Example: `(apply (fn (i) (+ i 1)) 4)` => `5`
 

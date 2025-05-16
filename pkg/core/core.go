@@ -44,7 +44,7 @@ func Eval(env *types.Environment, exp types.Expression) types.Expression {
 			return applySeq(env, cdr...)
 		case "let":
 			return applyLet(env, cdr...)
-		case "fn":
+		case "fn", "lambda":
 			return applyFn(env, cdr...)
 		}
 		if fn, ok = env.Lookup(sym).(types.Function); !ok {
