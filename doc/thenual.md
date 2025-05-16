@@ -100,3 +100,14 @@ Multiply numbers.
 Divide numbers.
 - Syntax: `(/ EXP...)`
 - Example: `(/ 7 5)` => `1`
+
+**Map**
+Map list with function.
+- Syntax: `(map FUNCTION LIST)`
+- Example: `(def ++ (fn (i) (+ i 1)))` => `++`
+- Example: `(map ++ (list 2 4 6 8 10))` => `(3 5 7 9 11)`
+
+**Filter**
+Filter list with function.
+- Syntax: `(filter FUNCTION LIST)`
+- Example: `(filter key? (list 1 :two 3 :four 5))` => `(:two :four)`

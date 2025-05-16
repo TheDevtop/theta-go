@@ -32,6 +32,7 @@ var DefaultSite *types.Environment = &types.Environment{
 		types.Symbol("apply"):  siteApply,
 		types.Symbol("mesg"):   siteMesg,
 		types.Symbol("map"):    siteMap,
+		types.Symbol("filter"): siteFilter,
 		types.Symbol("nil?"):   siteIsNil,
 		types.Symbol("bool?"):  siteIsBoolean,
 		types.Symbol("str?"):   siteIsString,
@@ -40,6 +41,7 @@ var DefaultSite *types.Environment = &types.Environment{
 		types.Symbol("sym?"):   siteIsSymbol,
 		types.Symbol("key?"):   siteIsKeyword,
 		types.Symbol("fn?"):    siteIsFunction,
+		types.Symbol("atom?"):  siteIsAtom,
 		types.Symbol("list?"):  siteIsList,
 	},
 }

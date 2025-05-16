@@ -253,6 +253,32 @@ var (
 		}
 		return list
 	}
+	siteFilter types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		var (
+			fn      types.Function
+			inList  types.List
+			outList types.List
+			ok      bool
+		)
+		if len(args) != 2 {
+			return core.ErrInvalidArgs
+		}
+		if fn, ok = args[0].(types.Function); !ok {
+			return core.ErrInvalidType
+		}
+		if inList, ok = args[1].(types.List); !ok {
+			return core.ErrInvalidType
+		}
+		outList = make(types.List, 0, len(inList))
+
+		for _, exp := range inList {
+			bit, ok := fn(env, exp).(bool)
+			if ok && bit {
+				outList = append(outList, exp)
+			}
+		}
+		return outList
+	}
 	siteIsNil types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		for _, arg := range args {
 			if arg != nil {
@@ -281,6 +307,12 @@ var (
 	}
 	siteIsFunction types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[types.Function](args...)
+	}
+	siteIsAtom types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if !types.IsConsistent[types.List](args...) && !types.IsConsistent[types.Function](args...) {
+			return true
+		}
+		return false
 	}
 	siteIsList types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[types.List](args...)
