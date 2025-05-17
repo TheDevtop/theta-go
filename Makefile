@@ -1,5 +1,5 @@
 help:
-	@echo 'usage: make build|docker|clean|help'
+	@echo 'usage: make build|docker|tests|clean|help'
 
 prep:
 	mkdir bin
@@ -12,6 +12,10 @@ build:
 
 docker:
 	@docker build -f Dockerfile -t ghcr.io/thedevtop/theta-go .
+
+tests:
+	@go test ./pkg/core/sexp ./pkg/core/types ./pkg/core
+	@go test ./pkg/site
 
 clean:
 	@rm -r bin
