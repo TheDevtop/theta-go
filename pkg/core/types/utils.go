@@ -34,7 +34,7 @@ func IsConsistent[T Expression](expList ...Expression) bool {
 // Cast all list expressions to type (best effort)
 func Cast[T Expression](expList ...Expression) []T {
 	var (
-		nlist = make([]T, len(expList))
+		nlist = make([]T, len(expList)) // Make sure that the numbers of items is the same
 		ok    bool
 		obj   T
 	)

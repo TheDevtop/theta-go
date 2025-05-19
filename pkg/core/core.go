@@ -18,6 +18,8 @@ func apply(env *types.Environment, fn types.Function, exp ...types.Expression) t
 
 // Evaluate an expression
 func Eval(env *types.Environment, exp types.Expression) types.Expression {
+	// Only lists and symbols are "special",
+	// the rest will just return
 	switch exp := exp.(type) {
 	case types.Symbol:
 		return env.Lookup(exp)
@@ -31,6 +33,7 @@ func Eval(env *types.Environment, exp types.Expression) types.Expression {
 		if sym, ok = car.(types.Symbol); !ok {
 			return ErrInvalidType
 		}
+		// Check special forms before environment bound symbols
 		switch sym {
 		case "quote":
 			return applyQuote(env, cdr...)
