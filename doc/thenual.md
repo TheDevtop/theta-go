@@ -101,6 +101,21 @@ Divide numbers.
 - Syntax: `(/ EXP...)`
 - Example: `(/ 7 5)` => `1`
 
+**List**
+Construct a list.
+- Syntax: `(list EXP...)`
+- Example: `(list :one 1 :ten 10)` => `(:one 1 :ten 10)`
+
+**Car**
+Get the first part of the list.
+- Syntax: `(car EXP)`
+- Example: `(car (quote (foo bar baz bat)))` => `foo`
+
+**Cdr**
+Get the rest part of the list.
+- Syntax: `(cdr EXP)`
+- Example: `(cdr (quote (foo bar baz bat)))` => `(bar baz bat)`
+
 **Map**
 Map list with function.
 - Syntax: `(map FUNCTION LIST)`
