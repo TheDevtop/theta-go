@@ -11,8 +11,12 @@ type Environment struct {
 }
 
 type (
-	Symbol     string
-	Keyword    string
+	Symbol  string
+	Keyword string
+	Number  struct {
+		int
+		float64
+	}
 	Expression any
 	List       = []Expression
 	Function   func(*Environment, ...Expression) Expression
