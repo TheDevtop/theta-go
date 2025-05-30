@@ -33,6 +33,8 @@ var DefaultSite *types.Environment = &types.Environment{
 		types.Symbol("mesg"):   siteMesg,
 		types.Symbol("map"):    siteMap,
 		types.Symbol("filter"): siteFilter,
+		types.Symbol("concat"): siteConcat,
+		types.Symbol("printf"): sitePrintf,
 		types.Symbol("nil?"):   siteIsNil,
 		types.Symbol("bool?"):  siteIsBoolean,
 		types.Symbol("str?"):   siteIsString,

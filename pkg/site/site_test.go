@@ -75,3 +75,35 @@ func TestCdr(t *testing.T) {
 		t.Errorf("Objects should be equal\n")
 	}
 }
+
+func TestConcat(t *testing.T) {
+	// Axioms
+	var (
+		input  = `(concat "This" "is" "a" "line" "of" "text!")`
+		expect = `"This is a line of text!"`
+	)
+
+	// Application
+	output := repl(input)
+
+	// Verification
+	if output != expect {
+		t.Errorf("Objects should be equal, result: %s\n", output)
+	}
+}
+
+func TestPrintf(t *testing.T) {
+	// Axioms
+	var (
+		input  = `(printf "%s: %d" "key" -91)`
+		expect = `"key: -91"`
+	)
+
+	// Application
+	output := repl(input)
+
+	// Verification
+	if output != expect {
+		t.Errorf("Objects should be equal, result: %s\n", output)
+	}
+}

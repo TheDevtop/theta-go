@@ -126,3 +126,13 @@ Map list with function.
 Filter list with function.
 - Syntax: `(filter FUNCTION LIST)`
 - Example: `(filter key? (list 1 :two 3 :four 5))` => `(:two :four)`
+
+**Concat**
+Concatenate strings.
+- Syntax: `(concat STRING...)`
+- Example: `(concat "eeni" "meeni" "mini" "mo")` => `"eeni meeni mini mo"`
+
+**Printf**
+Print formatted strings.
+- Syntax: `(printf FORMAT-STRING EXP...)`
+- Example: `(printf "%s was released in %d" "Linux 1.0" 1994)` => `"Linux 1.0 was released in 1994"`

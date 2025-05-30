@@ -6,7 +6,9 @@ package site
 */
 
 import (
+	"fmt"
 	"slices"
+	"strings"
 
 	"github.com/TheDevtop/theta-go/pkg/core"
 	"github.com/TheDevtop/theta-go/pkg/core/types"
@@ -278,6 +280,38 @@ var (
 			}
 		}
 		return outList
+	}
+	siteConcat types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		var nargs []string = make([]string, len(args))
+		if !types.IsConsistent[string](args...) {
+			return core.ErrInvalidType
+		}
+		for i, e := range args {
+			nargs[i] = unmapQuotes(e.(string))
+		}
+		return mapQuotes(strings.Join(nargs, " "))
+	}
+	sitePrintf types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+		var (
+			fmtStr string
+			nargs  []any
+		)
+		if len(args) < 2 {
+			return core.ErrInvalidArgs
+		}
+		if !types.IsConsistent[string](args[0]) {
+			return core.ErrInvalidType
+		}
+		fmtStr = unmapQuotes(args[0].(string))
+		nargs = make([]any, len(args)-1)
+		for i, e := range args[1:] {
+			if ce, ok := e.(string); ok {
+				nargs[i] = unmapQuotes(ce)
+			} else {
+				nargs[i] = e
+			}
+		}
+		return mapQuotes(fmt.Sprintf(fmtStr, nargs...))
 	}
 	siteIsNil types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
 		for _, arg := range args {
