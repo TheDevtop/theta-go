@@ -15,19 +15,19 @@ import (
 )
 
 var (
-	siteEqual types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteEqual types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
 		return args[0] == args[1]
 	}
-	siteNequal types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteNequal types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
 		return args[0] != args[1]
 	}
-	siteAdd types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteAdd types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 1 {
 			return core.ErrInvalidArgs
 		}
@@ -40,7 +40,7 @@ var (
 			return core.ErrInvalidType
 		}
 	}
-	siteMul types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteMul types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 1 {
 			return core.ErrInvalidArgs
 		}
@@ -53,7 +53,7 @@ var (
 			return core.ErrInvalidType
 		}
 	}
-	siteSub types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteSub types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 1 {
 			return core.ErrInvalidArgs
 		}
@@ -66,7 +66,7 @@ var (
 			return core.ErrInvalidType
 		}
 	}
-	siteDiv types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteDiv types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 1 {
 			return core.ErrInvalidArgs
 		}
@@ -79,7 +79,7 @@ var (
 			return core.ErrInvalidType
 		}
 	}
-	siteLesser types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteLesser types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 2 {
 			return core.ErrInvalidArgs
 		}
@@ -92,7 +92,7 @@ var (
 			return core.ErrInvalidType
 		}
 	}
-	siteGreater types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteGreater types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 2 {
 			return core.ErrInvalidArgs
 		}
@@ -105,7 +105,7 @@ var (
 			return core.ErrInvalidType
 		}
 	}
-	siteAnd types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteAnd types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		for _, arg := range args {
 			if res, ok := arg.(bool); !ok {
 				return core.ErrInvalidType
@@ -115,7 +115,7 @@ var (
 		}
 		return true
 	}
-	siteOr types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteOr types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		for _, arg := range args {
 			if res, ok := arg.(bool); !ok {
 				return core.ErrInvalidType
@@ -125,30 +125,30 @@ var (
 		}
 		return false
 	}
-	siteXor types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteXor types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
 		nargs := types.Cast[bool](args...)
 		return nargs[0] != nargs[1]
 	}
-	siteNot types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteNot types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 1 {
 			return core.ErrInvalidArgs
 		}
 		nargs := types.Cast[bool](args...)
 		return !nargs[0]
 	}
-	siteLen types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteLen types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 1 {
 			return core.ErrInvalidArgs
 		}
 		return len(args)
 	}
-	siteList types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteList types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return args
 	}
-	siteCar types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteCar types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 1 {
 			return core.ErrInvalidArgs
 		}
@@ -159,7 +159,7 @@ var (
 			return car
 		}
 	}
-	siteCdr types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteCdr types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 1 {
 			return core.ErrInvalidArgs
 		}
@@ -170,7 +170,7 @@ var (
 			return cdr
 		}
 	}
-	siteRev types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteRev types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) != 1 {
 			return core.ErrInvalidArgs
 		}
@@ -181,7 +181,7 @@ var (
 			return arg
 		}
 	}
-	siteMem types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteMem types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
 			list types.List
 			ok   bool
@@ -194,7 +194,7 @@ var (
 		}
 		return slices.Contains(list, args[0])
 	}
-	siteAppend types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteAppend types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) < 2 {
 			return core.ErrInvalidArgs
 		}
@@ -205,20 +205,20 @@ var (
 			return append(list, rest...)
 		}
 	}
-	siteApply types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteApply types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
-			fn types.Function
+			fn types.Procedure
 			ok bool
 		)
 		if len(args) < 2 {
 			return core.ErrInvalidArgs
 		}
-		if fn, ok = args[0].(types.Function); !ok {
+		if fn, ok = args[0].(types.Procedure); !ok {
 			return core.ErrInvalidType
 		}
 		return fn(env, args[1:]...)
 	}
-	siteMesg types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteMesg types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) == 1 {
 			if msg, ok := args[0].(string); ok {
 				return types.List{core.KeyOk, msg}
@@ -234,16 +234,16 @@ var (
 		}
 		return core.ErrInvalidArgs
 	}
-	siteMap types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteMap types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
-			fn   types.Function
+			fn   types.Procedure
 			list types.List
 			ok   bool
 		)
 		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
-		if fn, ok = args[0].(types.Function); !ok {
+		if fn, ok = args[0].(types.Procedure); !ok {
 			return core.ErrInvalidType
 		}
 		if list, ok = args[1].(types.List); !ok {
@@ -255,9 +255,9 @@ var (
 		}
 		return list
 	}
-	siteFilter types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteFilter types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
-			fn      types.Function
+			fn      types.Procedure
 			inList  types.List
 			outList types.List
 			ok      bool
@@ -265,7 +265,7 @@ var (
 		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
-		if fn, ok = args[0].(types.Function); !ok {
+		if fn, ok = args[0].(types.Procedure); !ok {
 			return core.ErrInvalidType
 		}
 		if inList, ok = args[1].(types.List); !ok {
@@ -281,7 +281,7 @@ var (
 		}
 		return outList
 	}
-	siteConcat types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteConcat types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var nargs []string = make([]string, len(args))
 		if !types.IsConsistent[string](args...) {
 			return core.ErrInvalidType
@@ -291,7 +291,7 @@ var (
 		}
 		return mapQuotes(strings.Join(nargs, " "))
 	}
-	sitePrintf types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	sitePrintf types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
 			fmtStr string
 			nargs  []any
@@ -313,7 +313,7 @@ var (
 		}
 		return mapQuotes(fmt.Sprintf(fmtStr, nargs...))
 	}
-	siteIsNil types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteIsNil types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		for _, arg := range args {
 			if arg != nil {
 				return false
@@ -321,34 +321,34 @@ var (
 		}
 		return true
 	}
-	siteIsBoolean types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteIsBoolean types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[bool](args...)
 	}
-	siteIsString types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteIsString types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[string](args...)
 	}
-	siteIsInteger types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteIsInteger types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[int](args...)
 	}
-	siteIsFloating types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteIsFloating types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[float64](args...)
 	}
-	siteIsSymbol types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteIsSymbol types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[types.Symbol](args...)
 	}
-	siteIsKeyword types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteIsKeyword types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[types.Keyword](args...)
 	}
-	siteIsFunction types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
-		return types.IsConsistent[types.Function](args...)
+	siteIsFunction types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[types.Procedure](args...)
 	}
-	siteIsAtom types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
-		if !types.IsConsistent[types.List](args...) && !types.IsConsistent[types.Function](args...) {
+	siteIsAtom types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if !types.IsConsistent[types.List](args...) && !types.IsConsistent[types.Procedure](args...) {
 			return true
 		}
 		return false
 	}
-	siteIsList types.Function = func(env *types.Environment, args ...types.Expression) types.Expression {
+	siteIsList types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[types.List](args...)
 	}
 )

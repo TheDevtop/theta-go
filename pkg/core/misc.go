@@ -23,8 +23,8 @@ func Message(key types.Keyword, mesg string) types.Expression {
 }
 
 // Construct a lambda function
-func Lambda(args []types.Symbol, body types.Expression) types.Function {
-	var fn types.Function = func(env *types.Environment, exp ...types.Expression) types.Expression {
+func Lambda(args []types.Symbol, body types.Expression) types.Procedure {
+	var proc types.Procedure = func(env *types.Environment, exp ...types.Expression) types.Expression {
 		var (
 			args  = args
 			body  = body
@@ -39,5 +39,5 @@ func Lambda(args []types.Symbol, body types.Expression) types.Function {
 		fnenv.Link(env)
 		return Eval(fnenv, body)
 	}
-	return fn
+	return proc
 }

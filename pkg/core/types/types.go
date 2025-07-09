@@ -15,5 +15,9 @@ type (
 	Keyword    string
 	Expression any
 	List       = []Expression
-	Function   func(*Environment, ...Expression) Expression
+	Function   struct {
+		Args []Symbol
+		Body Expression
+	}
+	Procedure func(*Environment, ...Expression) Expression
 )

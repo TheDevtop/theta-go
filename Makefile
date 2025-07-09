@@ -1,5 +1,5 @@
 help:
-	@echo 'usage: make build|docker|tests|clean|help'
+	@echo 'usage: make build|tests|clean|help'
 
 prep:
 	mkdir bin
@@ -9,9 +9,6 @@ build:
 	go fmt cmd/threpl/threpl.go
 	go build -o bin/theta cmd/theta/theta.go
 	go build -o bin/threpl cmd/threpl/threpl.go
-
-docker:
-	@docker build -f Dockerfile -t ghcr.io/thedevtop/theta-go .
 
 tests:
 	@go test ./pkg/core/sexp ./pkg/core/types ./pkg/core

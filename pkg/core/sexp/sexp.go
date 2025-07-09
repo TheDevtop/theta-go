@@ -16,8 +16,8 @@ import (
 const (
 	keyTrue  types.Keyword = ":true"
 	keyFalse types.Keyword = ":false"
-	keyNil   types.Keyword = ":nil"
-	keyFn    types.Keyword = ":fn"
+	keyNil   types.Keyword = ":0"
+	keyProc  types.Keyword = ":proc"
 )
 
 // Check if string is keyword
@@ -117,8 +117,8 @@ func Encode(exp types.Expression) string {
 		ret = string(exp)
 	case types.Keyword:
 		ret = string(exp)
-	case types.Function:
-		ret = string(keyFn)
+	case types.Procedure:
+		ret = string(keyProc)
 	case types.List:
 		bucket := make([]string, 0, 8)
 		for _, e := range exp {
