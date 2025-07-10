@@ -340,6 +340,9 @@ var (
 		return types.IsConsistent[types.Keyword](args...)
 	}
 	siteIsFunction types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
+		return types.IsConsistent[types.Function](args...)
+	}
+	siteIsProcedure types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[types.Procedure](args...)
 	}
 	siteIsAtom types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
@@ -350,5 +353,16 @@ var (
 	}
 	siteIsList types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		return types.IsConsistent[types.List](args...)
+	}
+	siteUnfunction types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
+		if len(args) != 1 {
+			return core.ErrInvalidArgs
+		}
+		if !types.IsConsistent[types.Function](args[0]) {
+			return core.ErrInvalidType
+		}
+		fn := args[0].(types.Function)
+
+		return types.List{types.Symbol("fn"), types.ReduceArgs(fn.Args), fn.Body}
 	}
 )
