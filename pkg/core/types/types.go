@@ -15,8 +15,9 @@ type (
 	Keyword    string
 	Expression any
 	List       = []Expression
+	Set        map[Symbol]bool
 	Function   struct {
-		Args []Symbol
+		Args Set
 		Body Expression
 	}
 	Procedure func(*Environment, ...Expression) Expression

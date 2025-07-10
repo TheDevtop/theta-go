@@ -37,9 +37,20 @@ func boolToKeyword(bit bool) types.Keyword {
 	}
 }
 
+// Encode set
+func encodeSet(set types.Set) string {
+	var symlist = make([]string, 0, len(set))
+	for sym, ok := range set {
+		if ok {
+			symlist = append(symlist, string(sym))
+		}
+	}
+	return "[" + strings.Join(symlist, " ") + "]"
+}
+
 // Tokenize input string via special regex
 func lex(str string) []string {
-	rex := regexp.MustCompile(`"([^"\\]|\\.)*"|[()]|[^()\s]+`)
+	rex := regexp.MustCompile(`"[^"]*"|'[^']*'|[()\[\]]|[^\s()\[\]"']+`)
 	return rex.FindAllString(str, -1)
 }
 
@@ -119,6 +130,8 @@ func Encode(exp types.Expression) string {
 		ret = string(exp)
 	case types.Procedure:
 		ret = string(keyProc)
+	case types.Set:
+		ret = encodeSet(exp)
 	case types.List:
 		bucket := make([]string, 0, 8)
 		for _, e := range exp {
