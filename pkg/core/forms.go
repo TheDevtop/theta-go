@@ -120,19 +120,16 @@ func applyLet(env *types.Environment, exp ...types.Expression) types.Expression 
 // Compose function via Lambda()
 // (fn (SYMBOLS...) EXP)
 func applyFn(_ *types.Environment, exp ...types.Expression) types.Expression {
-	var (
-		args []types.Symbol
-		body types.Expression
-	)
+	var fn types.Function
 
 	if len(exp) != 2 {
 		return ErrInvalidArgs
 	}
-	body = exp[1]
+	fn.Body = exp[1]
 	if list, ok := exp[0].(types.List); !ok {
 		return ErrInvalidType
 	} else {
-		args = types.Cast[types.Symbol](list...)
+		fn.Args = types.Cast[types.Symbol](list...)
 	}
-	return Lambda(args, body)
+	return fn
 }

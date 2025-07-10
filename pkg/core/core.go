@@ -8,12 +8,19 @@ package core
 import "github.com/TheDevtop/theta-go/pkg/core/types"
 
 // Construct and apply arguments to function
-func apply(env *types.Environment, proc types.Procedure, exp ...types.Expression) types.Expression {
+func apply(env *types.Environment, fpexp types.Expression, exp ...types.Expression) types.Expression {
 	var args types.List = make(types.List, len(exp))
 	for i, e := range exp {
 		args[i] = Eval(env, e)
 	}
-	return proc(env, args...)
+	switch fp := fpexp.(type) {
+	case types.Function:
+		return Call(env, fp, args...)
+	case types.Procedure:
+		return fp(env, args...)
+	default:
+		return ErrInvalidType
+	}
 }
 
 // Evaluate an expression
@@ -26,9 +33,8 @@ func Eval(env *types.Environment, exp types.Expression) types.Expression {
 	case types.List:
 		car, cdr := types.Cons(exp)
 		var (
-			sym  types.Symbol
-			ok   bool
-			proc types.Procedure
+			sym types.Symbol
+			ok  bool
 		)
 		if sym, ok = car.(types.Symbol); !ok {
 			return ErrInvalidType
@@ -50,10 +56,7 @@ func Eval(env *types.Environment, exp types.Expression) types.Expression {
 		case "fn", "lambda":
 			return applyFn(env, cdr...)
 		}
-		if proc, ok = env.Lookup(sym).(types.Procedure); !ok {
-			return ErrInvalidType
-		}
-		return apply(env, proc, cdr...)
+		return apply(env, env.Lookup(sym), cdr...)
 	default:
 		return exp
 	}

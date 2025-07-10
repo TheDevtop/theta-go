@@ -32,7 +32,7 @@ func TestEqual(t *testing.T) {
 	// Axioms
 	var (
 		input  = "(= 10 deca)"
-		expect = ":false"
+		expect = "false"
 	)
 
 	// Application

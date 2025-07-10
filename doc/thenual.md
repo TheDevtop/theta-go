@@ -7,14 +7,14 @@ This is the programming manual for the **Theta** list processor.
 Symbolic expressions are the essence of LISP.
 An expression can be one of several types, and all types have specific symbolic notation:
 
-- Nil `:nil`
-- Boolean `:true` | `:false`
+- Nil `nil`
+- Boolean `true` | `false`
 - Integer `7`, `-10`
 - Floating `3.14`, `4.0`
 - String `"Hello, world!"`
 - Symbol `+`, `my-symbol`
 - Keyword `:ok`, `:name`
-- Function `:fn`
+- Procedure or function `:bin`
 - List `()`, `(1 2 3)`, `((1 3) (2 4))`
 
 Symbols and lists are special, as they provide the means for combination and abstraction.
@@ -59,7 +59,7 @@ Evaluate multiple expressions, return last expression.
 **Lambda expression**
 Construct an anonymous function.
 - Syntax: `(fn (SYM...) EXP)`, `(lambda (SYM...) EXP)`
-- Example: `(fn (i) (+ i 1))` => `:fn`
+- Example: `(fn (i) (+ i 1))` => `:bin`
 - Example: `(apply (fn (i) (+ i 1)) 4)` => `5`
 
 **Let expression**
@@ -72,14 +72,14 @@ Evaluate with local bindings.
 **Equal**
 Check equality.
 - Syntax: `(= X Y)`
-- Example: `(= 4 4)` => `:true`
-- Example: `(= "Hello" "Goodbye")` => `:false`
+- Example: `(= 4 4)` => `true`
+- Example: `(= "Hello" "Goodbye")` => `false`
 
 **Inequality**
 Check equality.
 - Syntax: `(!= X Y)`
-- Example: `(!= 4 4)` => `:false`
-- Example: `(!= "Hello" "Goodbye")` => `:true`
+- Example: `(!= 4 4)` => `false`
+- Example: `(!= "Hello" "Goodbye")` => `true`
 
 **Add**
 Add numbers.

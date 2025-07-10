@@ -14,10 +14,9 @@ import (
 )
 
 const (
-	keyTrue  types.Keyword = ":true"
-	keyFalse types.Keyword = ":false"
-	keyNil   types.Keyword = ":0"
-	keyProc  types.Keyword = ":proc"
+	keyBin   types.Keyword = ":bin"
+	symTrue  types.Symbol  = "true"
+	symFalse types.Symbol  = "false"
 )
 
 // Check if string is keyword
@@ -28,29 +27,18 @@ func isKeyword(str string) (types.Keyword, bool) {
 	return types.Keyword(str), false
 }
 
-// Convert boolean to keyword representation
-func boolToKeyword(bit bool) types.Keyword {
+// Convert boolean to symbol representation
+func boolToKeyword(bit bool) types.Symbol {
 	if bit {
-		return keyTrue
+		return symTrue
 	} else {
-		return keyFalse
+		return symFalse
 	}
-}
-
-// Encode set
-func encodeSet(set types.Set) string {
-	var symlist = make([]string, 0, len(set))
-	for sym, ok := range set {
-		if ok {
-			symlist = append(symlist, string(sym))
-		}
-	}
-	return "[" + strings.Join(symlist, " ") + "]"
 }
 
 // Tokenize input string via special regex
 func lex(str string) []string {
-	rex := regexp.MustCompile(`"[^"]*"|'[^']*'|[()\[\]]|[^\s()\[\]"']+`)
+	rex := regexp.MustCompile(`"([^"\\]|\\.)*"|[()]|[^()\s]+`)
 	return rex.FindAllString(str, -1)
 }
 
@@ -66,18 +54,18 @@ func parse(token string) types.Expression {
 		return f
 	}
 	if k, ok := isKeyword(token); ok {
-		if k == keyTrue {
-			return true
-		}
-		if k == keyFalse {
-			return false
-		}
-		if k == keyNil {
-			return nil
-		}
 		return k
 	}
-	return types.Symbol(token)
+	switch token {
+	case "nil":
+		return nil
+	case "true":
+		return true
+	case "false":
+		return false
+	default:
+		return types.Symbol(token)
+	}
 }
 
 // Decode s-expression from string
@@ -115,7 +103,7 @@ func Encode(exp types.Expression) string {
 	ret := ""
 	switch exp := exp.(type) {
 	case nil:
-		ret = string(keyNil)
+		ret = string("nil")
 	case bool:
 		ret = string(boolToKeyword(exp))
 	case string:
@@ -128,10 +116,10 @@ func Encode(exp types.Expression) string {
 		ret = string(exp)
 	case types.Keyword:
 		ret = string(exp)
+	case types.Function:
+		ret = string(keyBin)
 	case types.Procedure:
-		ret = string(keyProc)
-	case types.Set:
-		ret = encodeSet(exp)
+		ret = string(keyBin)
 	case types.List:
 		bucket := make([]string, 0, 8)
 		for _, e := range exp {

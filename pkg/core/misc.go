@@ -22,22 +22,14 @@ func Message(key types.Keyword, mesg string) types.Expression {
 	return types.List{key, "\"" + mesg + "\""}
 }
 
-// Construct a lambda function
-func Lambda(args []types.Symbol, body types.Expression) types.Procedure {
-	var proc types.Procedure = func(env *types.Environment, exp ...types.Expression) types.Expression {
-		var (
-			args  = args
-			body  = body
-			fnenv = types.NewEnvironment(len(args))
-		)
-		if len(exp) != len(args) {
-			return ErrInvalidArgs
-		}
-		for i, arg := range args {
-			fnenv.Modify(arg, exp[i])
-		}
-		fnenv.Link(env)
-		return Eval(fnenv, body)
+func Call(env *types.Environment, fn types.Function, exp ...types.Expression) types.Expression {
+	var fnenv = types.NewEnvironment(len(fn.Args))
+	if len(exp) != len(fn.Args) {
+		return ErrInvalidArgs
 	}
-	return proc
+	for i, arg := range fn.Args {
+		fnenv.Modify(arg, exp[i])
+	}
+	fnenv.Link(env)
+	return Eval(fnenv, fn.Body)
 }
