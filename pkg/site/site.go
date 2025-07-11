@@ -46,6 +46,6 @@ var DefaultSite *types.Environment = &types.Environment{
 		types.Symbol("proc?"):  siteIsProcedure,
 		types.Symbol("atom?"):  siteIsAtom,
 		types.Symbol("list?"):  siteIsList,
-		types.Symbol("unfn"):   siteUnfunction,
+		types.Symbol("!fn"):    siteUnfunction,
 	},
 }

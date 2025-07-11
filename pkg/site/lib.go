@@ -206,17 +206,11 @@ var (
 		}
 	}
 	siteApply types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
-		var (
-			fn types.Procedure
-			ok bool
-		)
-		if len(args) < 2 {
+		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
-		if fn, ok = args[0].(types.Procedure); !ok {
-			return core.ErrInvalidType
-		}
-		return fn(env, args[1:]...)
+
+		return core.Apply(env, args[0], args[1:]...)
 	}
 	siteMesg types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		if len(args) == 1 {
@@ -236,28 +230,32 @@ var (
 	}
 	siteMap types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
-			fn   types.Procedure
 			list types.List
 			ok   bool
 		)
 		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
-		if fn, ok = args[0].(types.Procedure); !ok {
-			return core.ErrInvalidType
-		}
 		if list, ok = args[1].(types.List); !ok {
 			return core.ErrInvalidType
 		}
-
-		for i, exp := range list {
-			list[i] = fn(env, exp)
+		switch fp := args[0].(type) {
+		case types.Procedure:
+			for i, exp := range list {
+				list[i] = fp(env, exp)
+			}
+		case types.Function:
+			for i, exp := range list {
+				list[i] = core.Call(env, fp, exp)
+			}
+		default:
+			return core.ErrInvalidType
 		}
+
 		return list
 	}
 	siteFilter types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {
 		var (
-			fn      types.Procedure
 			inList  types.List
 			outList types.List
 			ok      bool
@@ -265,20 +263,30 @@ var (
 		if len(args) != 2 {
 			return core.ErrInvalidArgs
 		}
-		if fn, ok = args[0].(types.Procedure); !ok {
-			return core.ErrInvalidType
-		}
 		if inList, ok = args[1].(types.List); !ok {
 			return core.ErrInvalidType
 		}
 		outList = make(types.List, 0, len(inList))
 
-		for _, exp := range inList {
-			bit, ok := fn(env, exp).(bool)
-			if ok && bit {
-				outList = append(outList, exp)
+		switch fp := args[0].(type) {
+		case types.Procedure:
+			for _, exp := range inList {
+				bit, ok := fp(env, exp).(bool)
+				if ok && bit {
+					outList = append(outList, exp)
+				}
 			}
+		case types.Function:
+			for _, exp := range inList {
+				bit, ok := core.Call(env, fp, exp).(bool)
+				if ok && bit {
+					outList = append(outList, exp)
+				}
+			}
+		default:
+			return core.ErrInvalidType
 		}
+
 		return outList
 	}
 	siteConcat types.Procedure = func(env *types.Environment, args ...types.Expression) types.Expression {

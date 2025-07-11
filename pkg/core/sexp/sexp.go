@@ -14,9 +14,9 @@ import (
 )
 
 const (
-	keyBin   types.Keyword = ":bin"
-	symTrue  types.Symbol  = "true"
-	symFalse types.Symbol  = "false"
+	keyBin   types.Keyword = ":bin"  // For procedure and function types
+	symTrue  types.Symbol  = "true"  // For boolean true
+	symFalse types.Symbol  = "false" // For boolean false
 )
 
 // Check if string is keyword
@@ -28,7 +28,7 @@ func isKeyword(str string) (types.Keyword, bool) {
 }
 
 // Convert boolean to symbol representation
-func boolToKeyword(bit bool) types.Symbol {
+func boolToSymbol(bit bool) types.Symbol {
 	if bit {
 		return symTrue
 	} else {
@@ -105,7 +105,7 @@ func Encode(exp types.Expression) string {
 	case nil:
 		ret = string("nil")
 	case bool:
-		ret = string(boolToKeyword(exp))
+		ret = string(boolToSymbol(exp))
 	case string:
 		ret = exp
 	case int:

@@ -21,8 +21,10 @@ Symbols and lists are special, as they provide the means for combination and abs
 Symbols can abstract any other type;
 so can there be a symbol `pi` which abstracts the floating number `3.14`, or a symbol `+` which abstracts the addition function.
 
-Lists are also used to evaluate and applicate functions.
+Lists are also used to evaluate and applicate functions abd procedures.
 To add some numbers we can evaluate the list `(+ 1 2 3)`, which returns `6`.
+Functions and procedures are distinct types but can be used interchangeably;
+Procedures are builtin, while functions are written by the user.
 
 ### Special forms
 
@@ -57,7 +59,7 @@ Evaluate multiple expressions, return last expression.
 - Example: `(seq (def deca 10) (+ deca 2))` => `12`
 
 **Lambda expression**
-Construct an anonymous function.
+Construct a function.
 - Syntax: `(fn (SYM...) EXP)`, `(lambda (SYM...) EXP)`
 - Example: `(fn (i) (+ i 1))` => `:bin`
 - Example: `(apply (fn (i) (+ i 1)) 4)` => `5`
@@ -116,6 +118,11 @@ Get the rest part of the list.
 - Syntax: `(cdr EXP)`
 - Example: `(cdr (quote (foo bar baz bat)))` => `(bar baz bat)`
 
+**Apply**
+Apply a function to its arguments.
+- Syntax: `(apply FUNCTION EXP...)`
+- Example: `(apply + 2 3 4)` => `9`
+
 **Map**
 Map list with function.
 - Syntax: `(map FUNCTION LIST)`
@@ -136,3 +143,8 @@ Concatenate strings.
 Print formatted strings.
 - Syntax: `(printf FORMAT-STRING EXP...)`
 - Example: `(printf "%s was released in %d" "Linux 1.0" 1994)` => `"Linux 1.0 was released in 1994"`
+
+**Unfunction**
+Deconstruct a function.
+- Syntax: `(!fn FUNCTION)`
+- Example: `(!fn ++)` => `(fn (i) (+ i 1))`

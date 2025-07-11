@@ -22,6 +22,7 @@ func Message(key types.Keyword, mesg string) types.Expression {
 	return types.List{key, "\"" + mesg + "\""}
 }
 
+// Evaluate a function structure with a new environment
 func Call(env *types.Environment, fn types.Function, exp ...types.Expression) types.Expression {
 	var fnenv = types.NewEnvironment(len(fn.Args))
 	if len(exp) != len(fn.Args) {
