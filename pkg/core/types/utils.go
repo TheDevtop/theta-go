@@ -21,6 +21,15 @@ func MakeList(exp ...Expression) List {
 	return List(exp)
 }
 
+// Reduce arguments back to list of symbols
+func ReduceArgs(args []Symbol) List {
+	list := make(List, len(args))
+	for i, sym := range args {
+		list[i] = sym
+	}
+	return list
+}
+
 // Check if all expressions are consistent with type
 func IsConsistent[T Expression](expList ...Expression) bool {
 	for _, exp := range expList {

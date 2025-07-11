@@ -7,22 +7,24 @@ This is the programming manual for the **Theta** list processor.
 Symbolic expressions are the essence of LISP.
 An expression can be one of several types, and all types have specific symbolic notation:
 
-- Nil `:nil`
-- Boolean `:true` | `:false`
+- Nil `nil`
+- Boolean `true` | `false`
 - Integer `7`, `-10`
 - Floating `3.14`, `4.0`
 - String `"Hello, world!"`
 - Symbol `+`, `my-symbol`
 - Keyword `:ok`, `:name`
-- Function `:fn`
+- Procedure or function `:bin`
 - List `()`, `(1 2 3)`, `((1 3) (2 4))`
 
 Symbols and lists are special, as they provide the means for combination and abstraction.
 Symbols can abstract any other type;
 so can there be a symbol `pi` which abstracts the floating number `3.14`, or a symbol `+` which abstracts the addition function.
 
-Lists are also used to evaluate and applicate functions.
+Lists are also used to evaluate and applicate functions abd procedures.
 To add some numbers we can evaluate the list `(+ 1 2 3)`, which returns `6`.
+Functions and procedures are distinct types but can be used interchangeably;
+Procedures are builtin, while functions are written by the user.
 
 ### Special forms
 
@@ -57,9 +59,9 @@ Evaluate multiple expressions, return last expression.
 - Example: `(seq (def deca 10) (+ deca 2))` => `12`
 
 **Lambda expression**
-Construct an anonymous function.
+Construct a function.
 - Syntax: `(fn (SYM...) EXP)`, `(lambda (SYM...) EXP)`
-- Example: `(fn (i) (+ i 1))` => `:fn`
+- Example: `(fn (i) (+ i 1))` => `:bin`
 - Example: `(apply (fn (i) (+ i 1)) 4)` => `5`
 
 **Let expression**
@@ -72,14 +74,14 @@ Evaluate with local bindings.
 **Equal**
 Check equality.
 - Syntax: `(= X Y)`
-- Example: `(= 4 4)` => `:true`
-- Example: `(= "Hello" "Goodbye")` => `:false`
+- Example: `(= 4 4)` => `true`
+- Example: `(= "Hello" "Goodbye")` => `false`
 
 **Inequality**
 Check equality.
 - Syntax: `(!= X Y)`
-- Example: `(!= 4 4)` => `:false`
-- Example: `(!= "Hello" "Goodbye")` => `:true`
+- Example: `(!= 4 4)` => `false`
+- Example: `(!= "Hello" "Goodbye")` => `true`
 
 **Add**
 Add numbers.
@@ -116,6 +118,11 @@ Get the rest part of the list.
 - Syntax: `(cdr EXP)`
 - Example: `(cdr (quote (foo bar baz bat)))` => `(bar baz bat)`
 
+**Apply**
+Apply a function to its arguments.
+- Syntax: `(apply FUNCTION EXP...)`
+- Example: `(apply + 2 3 4)` => `9`
+
 **Map**
 Map list with function.
 - Syntax: `(map FUNCTION LIST)`
@@ -136,3 +143,8 @@ Concatenate strings.
 Print formatted strings.
 - Syntax: `(printf FORMAT-STRING EXP...)`
 - Example: `(printf "%s was released in %d" "Linux 1.0" 1994)` => `"Linux 1.0 was released in 1994"`
+
+**Unfunction**
+Deconstruct a function.
+- Syntax: `(!fn FUNCTION)`
+- Example: `(!fn ++)` => `(fn (i) (+ i 1))`

@@ -8,7 +8,7 @@ import (
 var (
 	deca Expression = int(10)
 	list            = List{Keyword(":foo"), Keyword(":bar"), Keyword(":baz")}
-	fn   Function   = func(_ *Environment, exp ...Expression) Expression {
+	proc Procedure  = func(_ *Environment, exp ...Expression) Expression {
 		n := exp[0].(int)
 		return n + 1
 	}
@@ -19,7 +19,7 @@ func TestFn(t *testing.T) {
 	var expectA Expression = int(11)
 
 	// Application
-	output := fn(nil, deca)
+	output := proc(nil, deca)
 
 	// Verification
 	if output != expectA {
